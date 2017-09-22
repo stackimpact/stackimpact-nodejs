@@ -63,7 +63,7 @@ Start the agent in the main thread by specifying the agent key and application n
 ```javascript
 let agent = stackimpact.start({
   agentKey: 'agent key here',
-  appName = 'MyNodejsApp'
+  appName: 'MyNodejsApp'
 });
 ```
 
