@@ -1,0 +1,46 @@
+{
+  "name": "stackimpact",
+  "version": "1.0.0",
+  "description": "StackImpact Node.js Agent",
+  "author": "StackImpact <devops@stackimpact.com>",
+  "keywords": [
+    "performance profiler",
+    "performance monitoring",
+    "production profiler",
+    "v8 profiler",
+    "cpu profiler",
+    "cpu sampler",
+    "cpu hot spots",
+    "memory profiler",
+    "memory sampler",
+    "memory leak",
+    "async profiler",
+    "error monitoring",
+    "health metrics",
+    "event loop stats",
+    "event loop monitoring",
+    "event loop metrics",
+    "gc stats",
+    "gc metrics",
+    "garbage collection monitoring",
+    "garbage collection metrics"
+  ],
+  "homepage": "http://stackimpact.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stackimpact/stackimpact-nodejs.git"
+  },
+  "dependencies": {
+    "nan": "*"
+  },
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-contrib-jshint": "*",
+    "mocha": "*"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "license": "BSD-3-Clause"
+}
