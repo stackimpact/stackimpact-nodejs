@@ -10,7 +10,6 @@ namespace cpu_profiler {
 
   bool is_started = false;
   v8::CpuProfiler* cpu_profiler;
-  int profile_counter = 0;
 
   static v8::Local<v8::Object> ConvertNode(const v8::CpuProfileNode* node, int depth) {
     v8::Local<v8::Object> node_obj = Nan::New<v8::Object>();
@@ -44,14 +43,15 @@ namespace cpu_profiler {
 
     is_started = true;
 
-    const v8::Local<v8::String> title = Nan::New<v8::String>("stackimpact-cpu-profile-" + std::to_string(++profile_counter)).ToLocalChecked();
+    const v8::Local<v8::String> title = Nan::New<v8::String>("stackimpact-cpu-profile").ToLocalChecked();
 
 #if V8_MAJOR_VERSION * 1000 + V8_MINOR_VERSION > 5005
     cpu_profiler = v8::CpuProfiler::New(info.GetIsolate());
 #else
     cpu_profiler = info.GetIsolate()->GetCpuProfiler();
 #endif
-    cpu_profiler->StartProfiling(title, false);    
+    cpu_profiler->SetSamplingInterval(10 * 1000);
+    cpu_profiler->StartProfiling(title, false);
   }
 
 
@@ -63,7 +63,7 @@ namespace cpu_profiler {
 
     is_started = false;
 
-    const v8::Local<v8::String> title = Nan::New<v8::String>("stackimpact-cpu-profile-" + std::to_string(profile_counter)).ToLocalChecked();
+    const v8::Local<v8::String> title = Nan::New<v8::String>("stackimpact-cpu-profile").ToLocalChecked();
     v8::CpuProfile* cpu_profile = cpu_profiler->StopProfiling(title); 
 
     if (cpu_profile != NULL) {
