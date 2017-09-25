@@ -9,8 +9,6 @@ let agent = stackimpact.start({
   agentKey: process.env.AGENT_KEY,
   appName: 'ExampleNodejsApp',
   appVersion: '1.0.0',
-  cpuProfilerDisabled: false,
-  allocationProfilerDisabled: false,
   debug: true
 });
 

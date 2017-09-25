@@ -13,7 +13,7 @@ describe('ErrorReporter', () => {
 
   describe('updateProfile()', () => {
     it('should update profile with new frames', (done) => {
-      agent.errorReporter.resetProfiles();
+      agent.errorReporter.reset();
 
       for (let i = 0; i < 10; i++) {
         agent.errorReporter.updateProfile(agent.errorReporter.exceptionProfile, new Error('some error ' + i));

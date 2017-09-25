@@ -70,7 +70,7 @@ describe('ProfilerScheduler', () => {
         assert(stats.records >= 5);
         assert(stats.reports >= 1);
 
-        ps.destroy()
+        ps.stop()
         done();
       }, 500);
     });
@@ -103,7 +103,7 @@ describe('ProfilerScheduler', () => {
         assert(stats.records === 1);
         assert(stats.reports === 0);
 
-        ps.destroy()
+        ps.stop()
         done();
       }, 350);
     });    

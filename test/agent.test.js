@@ -15,6 +15,12 @@ beforeEach(() => {
     cpuProfilerDisabled: false,
     allocationProfilerDisabled: false 
   });
+
+  global.agent.cpuReporter.start();
+  global.agent.allocationReporter.start();
+  global.agent.asyncReporter.start();
+  global.agent.errorReporter.start();
+  global.agent.processReporter.start();
 });
 
 afterEach(() => {
