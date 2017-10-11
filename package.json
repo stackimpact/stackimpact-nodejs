@@ -30,6 +30,9 @@
     "type": "git",
     "url": "https://github.com/stackimpact/stackimpact-nodejs.git"
   },
+  "scripts": {
+    "install": "node node-gyp-fallback.js"
+  },
   "dependencies": {
     "nan": "*"
   },
