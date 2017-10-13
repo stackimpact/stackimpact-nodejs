@@ -18,15 +18,17 @@ describe('ConfigLoader', () => {
         post: function(endpoint, payload, callback) {
           setTimeout(() => {
             callback(null, null, {profiling_disabled: 'yes'});
-            
-            assert(agent.config.isProfilingDisabled());
-
-            done();
           }, 1);
         }
       };
 
-      agent.configLoader.load()
+      agent.configLoader.load((err) => {
+        assert.ifError(err);
+
+        assert(agent.config.isProfilingDisabled());
+
+        done();
+      });
     });
   });
 

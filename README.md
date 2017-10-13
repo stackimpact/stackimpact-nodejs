@@ -61,7 +61,7 @@ const stackimpact = require('stackimpact');
 Start the agent in the main thread by specifying the agent key and application name. The agent key can be found in your account's Configuration section.
 
 ```javascript
-let agent = stackimpact.start({
+const agent = stackimpact.start({
   agentKey: 'agent key here',
   appName: 'MyNodejsApp'
 });
@@ -74,12 +74,32 @@ All initialization options:
 * `appVersion` (Optional) Sets application version, which can be used to associate profiling information with the source code release.
 * `appEnvironment` (Optional) Used to differentiate applications in different environments.
 * `hostName` (Optional) By default, host name will be the OS hostname.
+* `autoProfiling` (Optional) If set to `false`, disables automatic profiling and reporting. `agent.profile()` should be used instead. Useful for environments without support for timers or background tasks.
 * `debug` (Optional) Enables debug logging.
 * `cpuProfilerDisabled`, `allocationProfilerDisabled`, `asyncProfilerDisabled`, `errorProfilerDisabled` (Optional) Disables respective profiler when `true`.
 * `includeAgentFrames` (Optional) Set to `true` to not exclude agent stack frames from profiles.
 
 
+#### Profiling secific code
+*Optional*
+
+Use `agent.profile()` to instruct the agent when to start and stop profiling. If `autoProfiling` is disabled, this method will also periodically report the profiling data to the Dashboard. Usage example:
+
+```javascript
+let profile = agent.profile();
+
+// your code here
+
+profile.stop(() => {
+	// stoppped
+});
+```
+
+Is no callback is provided, `stop()` method returns a promise.
+
+
 #### Shutting down the agent
+*Optional*
 
 Use `agent.destroy()` to stop the agent if necessary, e.g. to allow application to exit.
 

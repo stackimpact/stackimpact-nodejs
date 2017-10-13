@@ -16,6 +16,8 @@ beforeEach(() => {
     allocationProfilerDisabled: false 
   });
 
+  global.agent.config.setAgentEnabled(true);
+
   global.agent.cpuReporter.start();
   global.agent.allocationReporter.start();
   global.agent.asyncReporter.start();
@@ -30,6 +32,12 @@ afterEach(() => {
 
 
 describe('Agent', () => {
+  let agent;
+  
+  beforeEach(() => {
+    agent = global.agent;
+  });
+
   describe('start()', () => {
     it('should not start the agent twice', (done) => {
       let runId = agent.runId;
@@ -46,4 +54,62 @@ describe('Agent', () => {
       done();
     });
   });
+
+
+  describe('profile()', () => {
+    it('should trigger profiling', (done) => {
+      let p = agent.profile();
+
+      setTimeout(() => {
+        p.stop(() => {
+          assert(
+            agent.cpuReporter.profileDuration > 0 ||
+            agent.allocationReporter.profileDuration > 0 ||
+            agent.asyncReporter.profileDuration > 0);
+          done();
+        }, 50);
+      });
+    });
+
+
+    it('should report profiles when autoProfilng=false', (done) => {
+      agent.options.autoProfiling = false;
+
+      let configDone = false;
+      let uploadDone = false;
+
+      agent.apiRequest = {
+        post: function(endpoint, payload, callback) {
+          if (endpoint == 'config') {
+            configDone = true;
+          }
+
+          if (endpoint == 'upload') {
+            if (payload.messages[0].content.type === 'profile') {
+              uploadDone = true;
+            }
+          }
+
+          callback(null, {}, {agent_enabled: 'yes'});
+        }
+      };
+
+      agent.cpuReporter.profileStartTs = Date.now() - 130 * 1000;
+      agent.allocationReporter.profileStartTs = Date.now() - 130 * 1000;
+      agent.asyncReporter.profileStartTs = Date.now() - 130 * 1000;
+      agent.messageQueue.lastFlushTs = agent.utils.timestamp() - 20;
+
+      let p = agent.profile();
+
+      setTimeout(() => {
+        p.stop(() => {
+          assert(configDone);
+          assert(uploadDone);
+
+          done();
+        }, 50);
+      });
+    });
+  });
+
 });

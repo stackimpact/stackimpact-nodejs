@@ -12,12 +12,22 @@ describe('AllocationReporter', () => {
   });
 
 
-  describe('readProfile()', () => {
-    it('should read allocation profile', (done) => {
+  describe('record()', () => {
+    it('should record allocation profile', (done) => {
       if (!agent.addon.checkAllocationSampler()) {
         done();
         return;
       }
+
+      let rec = agent.allocationReporter.record();
+      setTimeout(() => {
+        rec.stop();
+
+        //console.log(agent.allocationReporter.profile.dump());
+        assert(agent.allocationReporter.profile.dump().match(/allocation_reporter.test.js/));
+        done();
+      }, 500);
+
 
       let mem1 = [];
       function memLeak() {
@@ -29,13 +39,6 @@ describe('AllocationReporter', () => {
       }
 
       memLeak();
-
-      let profile = agent.allocationReporter.readProfile();
-      //console.log(profile.dump());
-      
-      assert(profile.dump().match(/allocation_reporter.test.js/));
-
-      done();
     });
   });
 

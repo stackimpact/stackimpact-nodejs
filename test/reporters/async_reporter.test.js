@@ -80,8 +80,9 @@ describe('AsyncReporter', () => {
       let timer;
       server.listen(5001, '127.0.0.1', () => {
         //let startCpuTime = process.cpuUsage();
-        agent.asyncReporter.record(1000, (err) => {
-          assert.ifError(err);
+        let rec = agent.asyncReporter.record();
+        setTimeout(() => {
+          rec.stop();
 
           //let endCpuTime = process.cpuUsage(startCpuTime)
           //console.log('CPU time:', (endCpuTime.user + endCpuTime.system) / 1e6);
@@ -90,7 +91,7 @@ describe('AsyncReporter', () => {
           assert(agent.asyncReporter.asyncProfile.dump().match(/async_reporter.test.js/));
 
           done();
-        });
+        }, 1000);
 
         timer = setInterval(() => {
           http.get('http://localhost:5001', (resp) => {

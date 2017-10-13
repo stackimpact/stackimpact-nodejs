@@ -11,30 +11,6 @@ describe('MessageQueue', () => {
   });
 
 
-  describe('expire()', () => {
-    it('should expire messages', (done) => {
-      let m = {
-        'm1': 1
-      };
-      agent.messageQueue.add('t1', m)
-
-      m = {
-        'm2': 2
-      };
-      agent.messageQueue.add('t1', m)
-
-      agent.messageQueue.queue[0]['added_at'] = agent.utils.timestamp() - 20 * 60
-
-      agent.messageQueue.expire();
-
-      assert.equal(agent.messageQueue.queue.length, 1);
-      assert.equal(agent.messageQueue.queue[0]['content']['m2'], 2);
-
-      done();
-    });
-  });
-
-
   describe('flush()', () => {
 
     it('should send messages and empty the queue', (done) => {
@@ -54,6 +30,12 @@ describe('MessageQueue', () => {
       };
 
       let m = {
+        'm0': 1
+      };
+      agent.messageQueue.add('t0', m);
+      agent.messageQueue.queue[0]['added_at'] = Date.now() - 20 * 60 * 1000;
+
+      m = {
         'm1': 1
       };
       agent.messageQueue.add('t1', m)
@@ -63,10 +45,11 @@ describe('MessageQueue', () => {
       };
       agent.messageQueue.add('t1', m)
 
-      agent.messageQueue.flush();
+      agent.messageQueue.flush(() => {
+        assert.equal(lastPayload['messages'][0]['content']['m1'], 1);
+        assert.equal(lastPayload['messages'][1]['content']['m2'], 2);        
+      });
 
-      assert.equal(lastPayload['messages'][0]['content']['m1'], 1);
-      assert.equal(lastPayload['messages'][1]['content']['m2'], 2);
     });
 
 
@@ -96,7 +79,7 @@ describe('MessageQueue', () => {
       };
       agent.messageQueue.add('t1', m)
 
-      agent.messageQueue.flush();
+      agent.messageQueue.flush((err) => {});
 
       m = {
         'm3': 3
