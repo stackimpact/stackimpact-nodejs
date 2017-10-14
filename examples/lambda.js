@@ -29,7 +29,7 @@ function simulateMemAlloc() {
 
 
 exports.handler = function(event, context, callback) {
-  var profile = agent.profile()
+  const span = agent.profile();
 
   simulateCpuWork();
   simulateMemAlloc();
@@ -39,7 +39,7 @@ exports.handler = function(event, context, callback) {
     body: 'Done'
   };
   
-  profile.stop(() => {
+  span.stop(() => {
     callback(null, response);
   });
 };

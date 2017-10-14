@@ -80,17 +80,17 @@ All initialization options:
 * `includeAgentFrames` (Optional) Set to `true` to not exclude agent stack frames from profiles.
 
 
-#### Profiling secific code
+#### Manual profiling
 *Optional*
 
-Use `agent.profile()` to instruct the agent when to start and stop profiling. If `autoProfiling` is disabled, this method will also periodically report the profiling data to the Dashboard. Usage example:
+Use `agent.profile()` to instruct the agent when to start and stop profiling. The agent decides if and which profiler is activated. Normally, this method should be used in repeating code, such as request or event handlers. If `autoProfiling` is disabled, this method will also periodically report the profiling data to the Dashboard. Usage example:
 
 ```javascript
-let profile = agent.profile();
+const span = agent.profile();
 
 // your code here
 
-profile.stop(() => {
+span.stop(() => {
 	// stoppped
 });
 ```
