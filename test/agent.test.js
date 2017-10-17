@@ -95,8 +95,11 @@ describe('Agent', () => {
       };
 
       agent.cpuReporter.profileStartTs = Date.now() - 130 * 1000;
+      agent.cpuReporter.profileDuration = 1;
       agent.allocationReporter.profileStartTs = Date.now() - 130 * 1000;
+      agent.allocationReporter.profileDuration = 1;
       agent.asyncReporter.profileStartTs = Date.now() - 130 * 1000;
+      agent.asyncReporter.profileDuration = 1;
       agent.messageQueue.lastFlushTs = agent.utils.timestamp() - 20;
 
       let p = agent.profile();
@@ -112,4 +115,27 @@ describe('Agent', () => {
     });
   });
 
+
+
+
+  describe('readMetrics()', () => {
+    it('should read metrics in standalone mode', (done) => {
+      agent.options.autoProfiling = false;
+      agent.options.standalone = true;
+
+      agent.cpuReporter.profileStartTs = Date.now() - 130 * 1000;
+      agent.cpuReporter.profileDuration = 1;
+
+      let p = agent.profile();
+
+      setTimeout(() => {
+        p.stop(() => {
+          let metrics = agent.readMetrics();
+          assert.equal(metrics[0].category, 'cpu-profile');
+
+          done();
+        }, 50);
+      });
+    });
+  });
 });
