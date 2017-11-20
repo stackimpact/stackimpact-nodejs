@@ -9,7 +9,8 @@ module.exports = function(grunt) {
         node: true,
         esversion: 6,
         globalstrict: true,
-        '-W069': true
+        '-W069': true,
+        '-W082': true
       }
     }
   });

@@ -74,7 +74,7 @@ All initialization options:
 * `appVersion` (Optional) Sets application version, which can be used to associate profiling information with the source code release.
 * `appEnvironment` (Optional) Used to differentiate applications in different environments.
 * `hostName` (Optional) By default, host name will be the OS hostname.
-* `autoProfiling` (Optional) If set to `false`, disables automatic profiling and reporting. `agent.profile()` should be used instead. Useful for environments without support for timers or background tasks.
+* `autoProfiling` (Optional) If set to `false`, disables automatic profiling and reporting. `agent.profile()` and `agent.report(callback)` should be used instead. Useful for environments without support for timers or background tasks.
 * `debug` (Optional) Enables debug logging.
 * `cpuProfilerDisabled`, `allocationProfilerDisabled`, `asyncProfilerDisabled`, `errorProfilerDisabled` (Optional) Disables respective profiler when `true`.
 * `includeAgentFrames` (Optional) Set to `true` to not exclude agent stack frames from profiles.
@@ -90,9 +90,7 @@ const span = agent.profile();
 
 // your code here
 
-span.stop(() => {
-	// stoppped
-});
+span.stop();
 ```
 
 Is no callback is provided, `stop()` method returns a promise.

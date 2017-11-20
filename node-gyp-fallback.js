@@ -17,6 +17,7 @@ catch(err) {
 let gyp = child_process.spawn('node-gyp', ['rebuild'], {cwd: process.cwd(), env: process.env, stdio: 'inherit'});
 
 gyp.on('error', (err) => {
+  console.log('node-gyp not found.');
   process.exit(1);
 });
 

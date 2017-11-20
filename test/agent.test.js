@@ -61,7 +61,8 @@ describe('Agent', () => {
       let p = agent.profile();
 
       setTimeout(() => {
-        p.stop(() => {
+        p.stop();
+        agent.report(() => {
           assert(
             agent.cpuReporter.profileDuration > 0 ||
             agent.allocationReporter.profileDuration > 0 ||
@@ -94,18 +95,20 @@ describe('Agent', () => {
         }
       };
 
-      agent.cpuReporter.profileStartTs = Date.now() - 130 * 1000;
-      agent.cpuReporter.profileDuration = 1;
-      agent.allocationReporter.profileStartTs = Date.now() - 130 * 1000;
-      agent.allocationReporter.profileDuration = 1;
-      agent.asyncReporter.profileStartTs = Date.now() - 130 * 1000;
-      agent.asyncReporter.profileDuration = 1;
-      agent.messageQueue.lastFlushTs = agent.utils.timestamp() - 20;
-
       let p = agent.profile();
 
       setTimeout(() => {
-        p.stop(() => {
+        p.stop();
+
+        agent.cpuReporter.profileStartTs = Date.now() - 130 * 1000;
+        agent.cpuReporter.profileDuration = 1;
+        agent.allocationReporter.profileStartTs = Date.now() - 130 * 1000;
+        agent.allocationReporter.profileDuration = 1;
+        agent.asyncReporter.profileStartTs = Date.now() - 130 * 1000;
+        agent.asyncReporter.profileDuration = 1;
+        agent.messageQueue.lastFlushTs = agent.utils.timestamp() - 20;
+
+        agent.report(() => {
           assert(configDone);
           assert(uploadDone);
 
@@ -129,7 +132,8 @@ describe('Agent', () => {
       let p = agent.profile();
 
       setTimeout(() => {
-        p.stop(() => {
+        p.stop();        
+        agent.report(() => {
           let metrics = agent.readMetrics();
           assert.equal(metrics[0].category, 'cpu-profile');
 

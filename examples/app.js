@@ -5,6 +5,7 @@ const stackimpact = require('..');
 
 // StackImpact agent initialization
 let agent = stackimpact.start({
+  dashboardAddress: process.env.DASHBOARD_ADDRESS,
   agentKey: process.env.AGENT_KEY,
   appName: 'ExampleNodejsApp',
   appVersion: '1.0.0',
