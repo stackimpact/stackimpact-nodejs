@@ -80,7 +80,7 @@ All initialization options:
 * `includeAgentFrames` (Optional) Set to `true` to not exclude agent stack frames from profiles.
 
 
-#### Manual profiling
+#### Workload profiling
 *Optional*
 
 Use `agent.profile()` to instruct the agent when to start and stop profiling. The agent decides if and which profiler is activated. Normally, this method should be used in repeating code, such as request or event handlers. Usage example:
