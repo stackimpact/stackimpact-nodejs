@@ -1,11 +1,13 @@
 'use strict';
 
+const AsyncProfiler = require('../../lib/profilers/async_profiler').AsyncProfiler;
+
 const assert = require('assert');
 const http = require('http');
 const fs = require('fs');
 
 
-describe('AsyncReporter', () => {
+describe('AsyncProfiler', () => {
   let agent;
   
   beforeEach(() => {
@@ -14,10 +16,12 @@ describe('AsyncReporter', () => {
 
   describe('extractFrames()', () => {
     it('should extract frames', (done) => {
-      if (!agent.minVersion(8, 1, 0)) {
+      let profiler = new AsyncProfiler(agent);
+      if (!profiler.test()) {
         done();
         return;
       }
+      profiler.reset();
 
       function generateStackTrace(skip) {
         var orig = Error.prepareStackTrace;
@@ -42,14 +46,14 @@ describe('AsyncReporter', () => {
         stack: generateStackTrace(0)
       };
 
-      agent.asyncReporter.samples = new Map();
-      agent.asyncReporter.samples.set(1, sample);
+      profiler.samples = new Map();
+      profiler.samples.set(1, sample);
 
-      let frames = agent.asyncReporter.createStackTrace(sample, true);
+      let frames = profiler.createStackTrace(sample, true);
 
       let found = false;
       frames.forEach((frame) => {
-        if(frame.match(/async_reporter.test.js/)) {
+        if(frame.match(/async_profiler.test.js/)) {
           found = true;
         }
       });
@@ -62,12 +66,14 @@ describe('AsyncReporter', () => {
   });
 
 
-  describe('record()', () => {
+  describe('startProfiling()', () => {
     it('should record async profile', (done) => {
-      if (!agent.minVersion(8, 1, 0)) {
+      let profiler = new AsyncProfiler(agent);
+      if (!profiler.test()) {
         done();
         return;
       }
+      profiler.reset();
 
       const server = http.createServer((req, res) => {
         fs.readFile('/tmp', () => {
@@ -80,15 +86,16 @@ describe('AsyncReporter', () => {
       let timer;
       server.listen(5001, '127.0.0.1', () => {
         //let startCpuTime = process.cpuUsage();
-        let rec = agent.asyncReporter.record();
+        profiler.startProfiler();
         setTimeout(() => {
-          rec.stop();
+          profiler.stopProfiler();
+          let profiles = profiler.buildProfile(1000);
 
           //let endCpuTime = process.cpuUsage(startCpuTime)
           //console.log('CPU time:', (endCpuTime.user + endCpuTime.system) / 1e6);
 
-          //console.log(agent.asyncReporter.asyncProfile.dump());
-          assert(agent.asyncReporter.asyncProfile.dump().match(/async_reporter.test.js/));
+          //console.log(profiles[0].profile.dump());
+          assert(profiles[0].profile.dump().match(/async_profiler.test.js/));
 
           done();
         }, 1000);

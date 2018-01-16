@@ -97,6 +97,19 @@ function simulateHttp() {
 }
 
 
+function simulateProgrammaticProfiling() {
+  setInterval(() => {
+    let span = agent.profile();
+
+    for(let i = 0; i < usage * 300000; i++) {
+      Math.random();
+    }
+
+    span.stop();
+  }, 1000);
+}
+
+
 function simulateExceptions() {
   setInterval(() => {
     if(Math.random() > 0.2) {
@@ -137,6 +150,7 @@ server.listen(5005, '127.0.0.1', () => {
   simulateCpu();
   simulateMemLeak();
   simulateHttp();
+  simulateProgrammaticProfiling();
   simulateExceptions();
   simulateRejections();
 });

@@ -2,7 +2,7 @@
 
 ## Overview
 
-StackImpact is a performance profiler for production applications. It gives developers continuous and historical view of application performance with line-of-code precision, which includes CPU, memory allocation and async call hot spots as well as execution bottlenecks, errors and runtime metrics. Learn more at [stackimpact.com](https://stackimpact.com/).
+StackImpact is a production-grade performance profiler built for both production and development environments. It gives developers continuous and historical view of application performance with line-of-code precision that is essential for locating CPU, memory allocation and async call hot spots as well as latency bottlenecks. Included runtime metric and error monitoring complement profiles for extensive performance analysis. Learn more at [stackimpact.com](https://stackimpact.com/).
 
 ![dashboard](https://stackimpact.com/wp-content/uploads/2017/09/hotspots-cpu-1.4-nodejs.png)
 
@@ -28,8 +28,8 @@ See full [documentation](https://stackimpact.com/docs/) for reference.
 ## Supported environment
 
 * Linux, OS X or Windows. Node.js v4.0.0 or higher.
-* **CPU profiler is disabled by default for Node.js v7.0.0 and higher due to memory leak in underlying V8’s CPU profiler. To enable, add `cpuProfilerDisabled: false` to startup options.**
-* Allocation profiler supports Node.js v6.0.0 and higher. **The allocation profiler is disabled by default, since V8’s heap sampling is still experimental and is seen to result in segmentation faults. To enable, add `allocationProfilerDisabled: false` to startup options.**
+* CPU profiler is disabled by default for Node.js v7.0.0 to v8.9.3 due to memory leak in underlying V8's CPU profiler. To enable, add `cpuProfilerDisabled: false` to startup options.
+* Allocation profiler supports Node.js v6.0.0 and higher. The allocation profiler is disabled by default, since V8's heap sampling is still experimental and is seen to result in segmentation faults. To enable, add `allocationProfilerDisabled: false` to startup options.
 * Async profiler supports Node.js v8.1.0 and higher.
 
 
@@ -80,7 +80,7 @@ All initialization options:
 * `includeAgentFrames` (Optional) Set to `true` to not exclude agent stack frames from profiles.
 
 
-#### Workload profiling
+#### Programmatic profiling
 *Optional*
 
 Use `agent.profile()` to instruct the agent when to start and stop profiling. The agent decides if and which profiler is activated. Normally, this method should be used in repeating code, such as request or event handlers. Usage example:
