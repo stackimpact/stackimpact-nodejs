@@ -1,6 +1,6 @@
 {
   "name": "stackimpact",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "StackImpact Node.js Agent",
   "author": "StackImpact <devops@stackimpact.com>",
   "keywords": [
