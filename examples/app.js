@@ -43,10 +43,10 @@ function cpuWork(usage, duration) {
 
 
 function simulateCpu() {
-  cpuWork(15);
+  cpuWork(5);
 
   setInterval(() => {
-    cpuWork(50, 240);
+    cpuWork(25, 240);
   }, 1200 * 1000);
 }
 
@@ -62,7 +62,7 @@ function simulateMemLeak() {
       n = 0;
     }
 
-    for(let i = 0; i < 10000; i++) {
+    for(let i = 0; i < 5000; i++) {
       obj1 = {'v': Math.random()};
       mem1.push(obj1);
     }
@@ -71,7 +71,7 @@ function simulateMemLeak() {
   // 5 sec
   setInterval(() => {
     let mem2 = [];
-    for(let i = 0; i < 1000; i++) {
+    for(let i = 0; i < 500; i++) {
       obj2 = {'v': Math.random()};
       mem2.push(obj2);
     }
