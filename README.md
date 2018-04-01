@@ -1,22 +1,27 @@
-# StackImpact Node.js Agent
+# StackImpact Node.js Profiler
 
 ## Overview
 
-StackImpact is a production-grade performance profiler built for both production and development environments. It gives developers continuous and historical view of application performance with line-of-code precision that is essential for locating CPU, memory allocation and async call hot spots as well as latency bottlenecks. Included runtime metric and error monitoring complement profiles for extensive performance analysis. Learn more at [stackimpact.com](https://stackimpact.com/).
+StackImpact is a production-grade performance profiler built for both production and development environments. It gives developers continuous and historical code-level view of application performance that is essential for locating CPU, memory allocation and I/O hot spots as well as latency bottlenecks. Included runtime metrics and error monitoring complement profiles for extensive performance analysis. Learn more at [stackimpact.com](https://stackimpact.com/).
 
 ![dashboard](https://stackimpact.com/img/readme/hotspots-cpu-1.5-nodejs.png)
 
 
 #### Features
 
-* Continuous hot spot profiling for CPU, memory allocations, async calls
-* Continuous latency bottleneck tracing
-* Exception monitoring
-* Health monitoring including CPU, memory, garbage collection and other runtime metrics
-* Anomaly detection
-* Multiple account users for team collaboration
+* Continuous hot spot profiling for CPU usage, memory allocation, async calls.
+* Continuous latency bottleneck tracing.
+* Error and exception monitoring.
+* Health monitoring including CPU, memory, garbage collection and other runtime metrics.
+* Alerts on profile anomalies.
+* Team access.
 
 Learn more on the [features](https://stackimpact.com/features/) page (with screenshots).
+
+
+#### How it works
+
+The StackImpact profiler agent is imported into a program and used as a normal package. When the program runs, various sampling profilers are started and stopped automatically by the agent and/or programmatically using the agent methods. The agent periodically reports recorded profiles and metrics to the StackImpact Dashboard. If an application has multiple processes, also referred to as workers, instances or nodes, only one or two processes will have active agents at any point of time.
 
 
 #### Documentation
@@ -81,7 +86,6 @@ All initialization options:
 
 
 #### Programmatic profiling
-*Optional*
 
 Use `agent.profile()` to instruct the agent when to start and stop profiling. The agent decides if and which profiler is activated. Normally, this method should be used in repeating code, such as request or event handlers. Usage example:
 
