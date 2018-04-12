@@ -21,7 +21,7 @@ Learn more on the [features](https://stackimpact.com/features/) page (with scree
 
 #### How it works
 
-The StackImpact profiler agent is imported into a program and used as a normal package. When the program runs, various sampling profilers are started and stopped automatically by the agent and/or programmatically using the agent methods. The agent periodically reports recorded profiles and metrics to the StackImpact Dashboard. If an application has multiple processes, also referred to as workers, instances or nodes, only one or two processes will have active agents at any point of time.
+The StackImpact profiler agent is imported into a program and used as a normal package. When the program runs, various sampling profilers are started and stopped automatically by the agent and/or programmatically using the agent methods. The agent periodically reports recorded profiles and metrics to the StackImpact Dashboard. If an application has multiple processes, also referred to as workers, instances or nodes, only one or two processes will have active agents at any point of time. The agent can also operate in manual mode, which should be used in development only.
 
 
 #### Documentation
@@ -34,7 +34,7 @@ See full [documentation](https://stackimpact.com/docs/) for reference.
 
 * Linux, OS X or Windows. Node.js v4.0.0 or higher.
 * CPU profiler is disabled by default for Node.js v7.0.0 to v8.9.3 due to memory leak in underlying V8's CPU profiler. To enable, add `cpuProfilerDisabled: false` to startup options.
-* Allocation profiler supports Node.js v6.0.0 and higher. The allocation profiler is disabled by default, since V8's heap sampling is still experimental and is seen to result in segmentation faults. To enable, add `allocationProfilerDisabled: false` to startup options.
+* Allocation profiler supports Node.js v6.0.0 and higher, but is disabled by default for Node.js v6.0.0 to v8.5.0 due to segfaults. To enable, add `allocationProfilerDisabled: false` to startup options.
 * Async profiler supports Node.js v8.1.0 and higher.
 
 
@@ -79,7 +79,7 @@ All initialization options:
 * `appVersion` (Optional) Sets application version, which can be used to associate profiling information with the source code release.
 * `appEnvironment` (Optional) Used to differentiate applications in different environments.
 * `hostName` (Optional) By default, host name will be the OS hostname.
-* `autoProfiling` (Optional) If set to `false`, disables automatic profiling and reporting. `agent.profile()` and `agent.report(callback)` should be used instead. Useful for environments without support for timers or background tasks.
+* `autoProfiling` (Optional) If set to `false`, disables automatic profiling and reporting. Programmatic or manual profiling should be used instead. Useful for environments without support for timers or background tasks.
 * `debug` (Optional) Enables debug logging.
 * `cpuProfilerDisabled`, `allocationProfilerDisabled`, `asyncProfilerDisabled`, `errorProfilerDisabled` (Optional) Disables respective profiler when `true`.
 * `includeAgentFrames` (Optional) Set to `true` to not exclude agent stack frames from profiles.
@@ -87,10 +87,10 @@ All initialization options:
 
 #### Programmatic profiling
 
-Use `agent.profile()` to instruct the agent when to start and stop profiling. The agent decides if and which profiler is activated. Normally, this method should be used in repeating code, such as request or event handlers. Usage example:
+Use `agent.profile(name)` to instruct the agent when to start and stop profiling. The agent decides if and which profiler is activated. Normally, this method should be used in repeating code, such as request or event handlers. In addition to more precise profiling, timing information will also be reported for the profiled spans. Usage example:
 
 ```javascript
-const span = agent.profile();
+const span = agent.profile('span1');
 
 // your code here
 
@@ -98,6 +98,43 @@ span.stop();
 ```
 
 Is no callback is provided, `stop()` method returns a promise.
+
+
+#### Manual profiling
+
+*Manual profiling should not be used in production!*
+
+By default, the agent starts and stops profiling automatically. Manual profiling allows to start and stop profilers directly. It is suitable for profiling short-lived programs and should not be used for long-running production applications. Automatic profiling should be disabled with `autoProfiling: false`.
+
+```javascript
+// Start CPU profiler.
+agent.startCpuProfiler();
+```
+
+```javascript
+// Stop CPU profiler and report the recorded profile to the Dashboard.
+agent.stopCpuProfiler(callback);
+```
+
+```javascript
+// Start async call profiler.
+agent.startAsyncProfiler();
+```
+
+```javascript
+// Stop async call profiler and report the recorded profile to the Dashboard.
+agent.stopAsyncProfiler(callback);
+```
+
+```javascript
+// Start heap allocation profiler.
+agent.startAllocationProfiler();
+```
+
+```javascript
+// Stop heap allocation profiler and report the recorded profile to the Dashboard.
+agent.stopAllocationProfiler(callback);
+```
 
 
 #### Shutting down the agent

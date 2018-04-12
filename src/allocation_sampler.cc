@@ -34,7 +34,7 @@ namespace allocation_sampler {
 
     is_started = true;
 
-    unsigned int sampling_interval = 1 << 15;
+    unsigned int sampling_interval = 1 << 19;
     info.GetIsolate()->GetHeapProfiler()->StartSamplingHeapProfiler(sampling_interval, MAX_DEPTH);
   }
 

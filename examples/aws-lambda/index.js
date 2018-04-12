@@ -1,4 +1,4 @@
-const stackimpact = require('..');
+const stackimpact = require('../..');
 
 
 const agent = stackimpact.start({
@@ -6,8 +6,6 @@ const agent = stackimpact.start({
   appName: 'ExampleNodejsLambda',
   appEnvironment: 'prod',
   autoProfiling: false,
-  cpuProfilerDisabled: false,
-  allocationProfilerDisabled: false,
   debug: true
 });
 
@@ -43,13 +41,3 @@ exports.handler = function(event, context, callback) {
     callback(null, response);
   });
 };
-
-
-
-// Simulate events.
-// Delete if deploying as lambda function.
-setInterval(() => {
-  exports.handler({}, {}, () => {
-    console.log('RequestResponse');
-  });
-}, 1000);

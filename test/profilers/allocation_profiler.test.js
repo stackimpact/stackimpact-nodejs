@@ -15,6 +15,11 @@ describe('AllocationProfiler', () => {
 
   describe('startProfiler()', () => {
     it('should record allocation profile', (done) => {
+      if (!agent.matchVersion("v8.6.0", null)) {
+        done();
+        return
+      }
+
       let profiler = new AllocationProfiler(agent);
       if (!profiler.test()) {
         done();

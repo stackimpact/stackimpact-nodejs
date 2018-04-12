@@ -22,6 +22,7 @@ beforeEach(() => {
   global.agent.allocationReporter.start();
   global.agent.asyncReporter.start();
   global.agent.errorReporter.start();
+  global.agent.spanReporter.start();
   global.agent.processReporter.start();
 });
 
@@ -36,6 +37,17 @@ describe('Agent', () => {
   
   beforeEach(() => {
     agent = global.agent;
+  });
+
+
+  describe('start()', () => {
+    it('should match version', (done) => {
+      assert.equal(agent.matchVersion(null, null), true);
+      assert.equal(agent.matchVersion("0.0.0", "v100.100.100"), true);
+      assert.equal(agent.matchVersion("v100.100.100", "v110.110.110"), false);
+
+      done();
+    });
   });
 
   describe('start()', () => {

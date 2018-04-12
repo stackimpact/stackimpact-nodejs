@@ -1,6 +1,6 @@
 const fs = require('fs');
 const http = require('http');
-const stackimpact = require('..');
+const stackimpact = require('../..');
 
 
 // StackImpact agent initialization
@@ -9,8 +9,6 @@ let agent = stackimpact.start({
   agentKey: process.env.AGENT_KEY,
   appName: 'ExampleNodejsApp',
   appVersion: '1.0.0',
-  cpuProfilerDisabled: false,
-  allocationProfilerDisabled: false,
   debug: true
 });
 
@@ -101,7 +99,7 @@ function simulateProgrammaticProfiling() {
   setInterval(() => {
     let span = agent.profile();
 
-    for(let i = 0; i < usage * 300000; i++) {
+    for(let i = 0; i < 100000; i++) {
       Math.random();
     }
 

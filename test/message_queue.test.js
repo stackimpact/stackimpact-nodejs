@@ -45,7 +45,7 @@ describe('MessageQueue', () => {
       };
       agent.messageQueue.add('t1', m)
 
-      agent.messageQueue.flush(() => {
+      agent.messageQueue.flush(false, () => {
         assert.equal(lastPayload['messages'][0]['content']['m1'], 1);
         assert.equal(lastPayload['messages'][1]['content']['m2'], 2);        
       });
@@ -79,7 +79,7 @@ describe('MessageQueue', () => {
       };
       agent.messageQueue.add('t1', m)
 
-      agent.messageQueue.flush((err) => {});
+      agent.messageQueue.flush(false, (err) => {});
 
       m = {
         'm3': 3
