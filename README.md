@@ -79,13 +79,13 @@ All initialization options:
 * `appVersion` (Optional) Sets application version, which can be used to associate profiling information with the source code release.
 * `appEnvironment` (Optional) Used to differentiate applications in different environments.
 * `hostName` (Optional) By default, host name will be the OS hostname.
-* `autoProfiling` (Optional) If set to `false`, disables automatic profiling and reporting. Programmatic or manual profiling should be used instead. Useful for environments without support for timers or background tasks.
+* `autoProfiling` (Optional) If set to `false`, disables automatic profiling and reporting. Focused or manual profiling should be used instead. Useful for environments without support for timers or background tasks.
 * `debug` (Optional) Enables debug logging.
 * `cpuProfilerDisabled`, `allocationProfilerDisabled`, `asyncProfilerDisabled`, `errorProfilerDisabled` (Optional) Disables respective profiler when `true`.
 * `includeAgentFrames` (Optional) Set to `true` to not exclude agent stack frames from profiles.
 
 
-#### Programmatic profiling
+#### Focused profiling
 
 Use `agent.profile(name)` to instruct the agent when to start and stop profiling. The agent decides if and which profiler is activated. Normally, this method should be used in repeating code, such as request or event handlers. In addition to more precise profiling, timing information will also be reported for the profiled spans. Usage example:
 

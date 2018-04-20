@@ -95,7 +95,7 @@ function simulateHttp() {
 }
 
 
-function simulateProgrammaticProfiling() {
+function simulateFocusedProfiling() {
   setInterval(() => {
     let span = agent.profile();
 
@@ -148,7 +148,7 @@ server.listen(5005, '127.0.0.1', () => {
   simulateCpu();
   simulateMemLeak();
   simulateHttp();
-  simulateProgrammaticProfiling();
+  simulateFocusedProfiling();
   simulateExceptions();
   simulateRejections();
 });
