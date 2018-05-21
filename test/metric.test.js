@@ -35,11 +35,13 @@ describe('Metric', () => {
     it('should convert metric to json', (done) => {
       let m = new Metric(agent, Metric.c.TYPE_PROFILE, Metric.c.CATEGORY_CPU, Metric.c.NAME_CPU_USAGE, Metric.c.UNIT_PERCENT);
 
-      let root = new Breakdown(agent, 'root');
+      let root = new Breakdown(agent, 'root', Breakdown.c.TYPE_CALLGRAPH);
       root.measurement = 10;
       root.numSamples = 1;
 
       let child1 = new Breakdown(agent, 'package1.func1');
+      child1.setType(Breakdown.c.TYPE_CALLSITE);
+      child1.addMetadata('key1', 'val1');
       child1.measurement = 5;
       child1.numSamples = 1;
       root.addChild(child1);
@@ -59,12 +61,16 @@ describe('Metric', () => {
           value: 100,
           duration: 1,
           breakdown: { 
-          name: 'root',
+            name: 'root',
+            type: 'callgraph',
+            metadata: {},
             measurement: 10,
             num_samples: 1,
             children: [
               {
                 name: 'package1.func1',
+                type: 'callsite',
+                metadata: {key1: 'val1'},
                 measurement: 5,
                 num_samples: 1,
                 children: []
