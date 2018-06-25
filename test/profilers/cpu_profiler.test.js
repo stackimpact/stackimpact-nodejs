@@ -28,6 +28,7 @@ describe('CpuProfiler', () => {
         profiler.stopProfiler();
         let profiles = profiler.buildProfile(500);
 
+        //console.log(profiles[0].profile.dump())
         assert(profiles[0].profile.dump().match(/cpu_profiler.test.js/));
         done();
       }, 500);
