@@ -91,6 +91,8 @@ namespace allocation_sampler {
     v8::AllocationProfile *profile = info.GetIsolate()->GetHeapProfiler()->GetAllocationProfile();
     if (profile) {
       v8::Local<v8::Object> root_obj = ConvertNode(profile->GetRootNode(), 0);
+      delete profile;
+      profile = NULL;
       info.GetReturnValue().Set(root_obj);
     }
     else {
