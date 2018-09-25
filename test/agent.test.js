@@ -74,8 +74,7 @@ describe('Agent', () => {
       let p = agent.profile();
 
       setTimeout(() => {
-        p.stop();
-        agent.report(() => {
+        p.stop(() => {
           assert(
             agent.cpuReporter.profileDuration > 0 ||
             agent.allocationReporter.profileDuration > 0 ||
@@ -111,8 +110,6 @@ describe('Agent', () => {
       let p = agent.profile();
 
       setTimeout(() => {
-        p.stop();
-
         agent.cpuReporter.profileStartTs = Date.now() - 130 * 1000;
         agent.cpuReporter.profileDuration = 1;
         agent.allocationReporter.profileStartTs = Date.now() - 130 * 1000;
@@ -121,7 +118,7 @@ describe('Agent', () => {
         agent.asyncReporter.profileDuration = 1;
         agent.messageQueue.lastFlushTs = agent.utils.timestamp() - 20;
 
-        agent.report(() => {
+        p.stop(() => {
           assert(configDone);
           assert(uploadDone);
 
