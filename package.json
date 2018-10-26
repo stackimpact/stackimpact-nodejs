@@ -1,6 +1,6 @@
 {
   "name": "stackimpact",
-  "version": "1.3.8",
+  "version": "1.3.9",
   "description": "StackImpact Node.js Profiler",
   "author": "StackImpact <devops@stackimpact.com>",
   "keywords": [
@@ -35,7 +35,8 @@
     "test": "mocha --recursive"
   },
   "dependencies": {
-    "nan": "*"
+    "nan": "*",
+    "node-gyp": "^3.8.0"
   },
   "devDependencies": {
     "grunt": "*",

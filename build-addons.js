@@ -6,6 +6,8 @@ const cp = require('child_process');
 cp.execSync('npm update node-abi', {stdio: [0,1,2]});
 const nodeAbi = require('node-abi');
 
+cp.execSync('npm update node-gyp', {stdio: [0,1,2]});
+
 const versions= [
   "v4.0.0",
   "v4.1.0",
@@ -172,7 +174,9 @@ const versions= [
   "v10.8.0",
   "v10.9.0",
   "v10.10.0",
+  "v10.11.0",
   "v10.12.0",
+  "v11.0.0",
 ];
 
 
@@ -188,7 +192,7 @@ versions.forEach((version) => {
   let addonPath = `${addonDir}/stackimpact-addon-v${abi}.node`;
 
   if (!fs.existsSync(addonPath)) {
-    cp.execSync(`node-gyp rebuild --target=${version}`, {stdio: [0,1,2]});
+    cp.execSync(`node node_modules/node-gyp/bin/node-gyp.js rebuild --target=${version}`, {stdio: [0,1,2]});
     fs.copyFileSync('build/Release/stackimpact-addon.node', addonPath);
   }
   else {
