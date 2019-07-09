@@ -1,6 +1,6 @@
 {
   "name": "stackimpact",
-  "version": "1.3.17",
+  "version": "1.3.18",
   "description": "StackImpact Node.js Profiler",
   "author": "StackImpact <devops@stackimpact.com>",
   "keywords": [
@@ -42,7 +42,7 @@
     "grunt": "*",
     "grunt-contrib-jshint": "*",
     "mocha": "*",
-    "node-abi": "^2.8.0"
+    "node-abi": "^2.9.0"
   },
   "main": "index.js",
   "engines": {
