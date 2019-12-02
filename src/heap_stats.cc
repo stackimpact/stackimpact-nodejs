@@ -9,12 +9,12 @@ namespace heap_stats {
 
     v8::Local<v8::Object> stats = Nan::New<v8::Object>();
     v8::Local<v8::Array> spaces = Nan::New<v8::Array>();
-    stats->Set(v8::String::NewFromUtf8(isolate, "spaces"), spaces);
+    Nan::Set(stats, Nan::New<v8::String>("spaces").ToLocalChecked(), spaces);
 
     v8::HeapStatistics heap_stats;
     isolate->GetHeapStatistics(&heap_stats);
 
-    stats->Set(Nan::New<v8::String>("used_heap_size").ToLocalChecked(), Nan::New<v8::Number>(heap_stats.used_heap_size()));
+    Nan::Set(stats, Nan::New<v8::String>("used_heap_size").ToLocalChecked(), Nan::New<v8::Number>(heap_stats.used_heap_size()));
 
     for (size_t i = 0; i < isolate->NumberOfHeapSpaces(); ++i) {
       v8::HeapSpaceStatistics space_stats;

@@ -65,11 +65,9 @@ namespace gc_stats {
 
 
   NAN_METHOD(ReadAndResetGCStats) {
-    v8::Isolate* isolate = info.GetIsolate();
-
-    v8::Local<v8::Object> stats = v8::Object::New(isolate);
-    stats->Set(Nan::New<v8::String>("num_cycles").ToLocalChecked(), Nan::New<v8::Number>(num_cycles));
-    stats->Set(Nan::New<v8::String>("total_time").ToLocalChecked(), Nan::New<v8::Number>(total_time));
+    v8::Local<v8::Object> stats = Nan::New<v8::Object>();
+    Nan::Set(stats, Nan::New<v8::String>("num_cycles").ToLocalChecked(), Nan::New<v8::Number>(num_cycles));
+    Nan::Set(stats, Nan::New<v8::String>("total_time").ToLocalChecked(), Nan::New<v8::Number>(total_time));
 
     num_cycles = 0;
     total_time = 0;
